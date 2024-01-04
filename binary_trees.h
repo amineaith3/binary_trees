@@ -90,7 +90,7 @@ int heap_extract(heap_t **root);
 int *heap_to_sorted_array(heap_t *heap, size_t *size);
 
 
-/* Void type return functions */ 
+/* Void type return functions */
 void binary_tree_delete(binary_tree_t *tree);
 void binary_tree_preorder(const binary_tree_t *tree, void (*func)(int));
 void binary_tree_inorder(const binary_tree_t *tree, void (*func)(int));
