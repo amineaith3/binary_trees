@@ -34,7 +34,7 @@ int binary_tree_is_perfect(const binary_tree_t *tree)
 	h_left = compare_depth(tree->left);
 	h_right = compare_depth(tree->right);
 
-	if (h_left == h_right )
+	if (h_left == h_right)
 		return (1);
 
 	return (0);
