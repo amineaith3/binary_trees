@@ -1,57 +1,53 @@
 #include "binary_trees.h"
 
 /**
- * heap_to_sorted_array - converts a Binary Max Heap to a sorted array of integers
+ * tree_size - measures the sum of heights of a binary tree
  *
- * @heap: pointer to the root node of the heap to convert
- * @size: address to store the size of the array
- * Return: array sorted
+ * @tree: a pointer to the root node of the tree to measure the height
+ *
+ * Return: tree height or 0 if tree is NULL
  */
-int *heap_to_sorted_array(heap_t *heap, size_t *size)
+size_t tree_size(const binary_tree_t *tree)
 {
-	int *sorted_array;
-	size_t array_size = 0;
+	size_t height_l = 0;
+	size_t height_r = 0;
 
-	if (heap == NULL || size == NULL)
-		return (NULL);
+	if (!tree)
+		return (0);
 
-	/* Get the size of the array */
-	array_size = binary_tree_size(heap);
+	if (tree->left)
+		height_l = 1 + tree_size(tree->left);
 
-	/* Allocate memory for the sorted array */
-	sorted_array = malloc(sizeof(int) * array_size);
-	if (sorted_array == NULL)
-		return (NULL);
+	if (tree->right)
+		height_r = 1 + tree_size(tree->right);
 
-	/* Perform in-order traversal to extract elements into the array */
-	heap_to_sorted_array_helper(heap, sorted_array, &array_size);
-
-	/* Update the size parameter */
-	*size = array_size;
-
-	return (sorted_array);
+	return (height_l + height_r);
 }
 
 /**
- * heap_to_sorted_array_helper - performs in-order traversal to extract elements
- * from a binary max heap into a sorted array
+ * heap_to_sorted_array - converts a Binary Max Heap
+ * to a sorted array of integers
  *
- * @heap: pointer to the root node of the heap
- * @sorted_array: pointer to the sorted array
- * @index: pointer to the current index in the array
+ * @heap: a pointer to the root node of the heap to convert
+ * @size: an address to store the size of the array
+ *
+ * Return: sorted array
  */
-void heap_to_sorted_array_helper(const heap_t *heap, int *sorted_array, size_t *index)
+int *heap_to_sorted_array(heap_t *heap, size_t *size)
 {
-	if (heap == NULL)
-		return;
+	int i, *a = NULL;
 
-	/* Traverse the left subtree */
-	heap_to_sorted_array_helper(heap->left, sorted_array, index);
+	if (!heap || !size)
+		return (NULL);
 
-	/* Add the current node's value to the array */
-	sorted_array[*index] = heap->n;
-	(*index)++;
+	*size = tree_size(heap) + 1;
+	a = malloc(sizeof(int) * (*size));
 
-	/* Traverse the right subtree */
-	heap_to_sorted_array_helper(heap->right, sorted_array, index);
+	if (!a)
+		return (NULL);
+
+	for (i = 0; heap; i++)
+		a[i] = heap_extract(&heap);
+
+	return (a);
 }
