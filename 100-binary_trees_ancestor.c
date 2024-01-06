@@ -10,7 +10,7 @@
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 					const binary_tree_t *second)
 {
-	const binary_tree_t *fi_anc, *se_anc;
+	const binary_tree_t *fi_anc, *si_anc;
 
 	for (fi_anc = first; fi_anc; fi_anc = fi_anc->parent)
 		for (si_anc = second; si_anc; si_anc = si_anc->parent)
